@@ -1,5 +1,23 @@
 #pragma once
-#include"Node.h"
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node {
+public:
+    int value;
+    Node* left;
+    Node* right;
+    Node* parent;
+
+    Node(int value) {
+        this->value = value;
+        left = nullptr;
+        right = nullptr;
+        parent = nullptr;
+    }
+};
+
 class BinaryTree {
 public:
     Node* root;
@@ -8,7 +26,7 @@ public:
         root = nullptr;
     }
 
-    
+    //Insertion
     void insert(int value) {
         if (root == nullptr) {
             root = new Node(value);
@@ -38,6 +56,7 @@ public:
             }
         }
     }
+    //Searching
 
     Node* search(int value) {
         return searchNode(root, value);
@@ -55,6 +74,19 @@ public:
         }
     }
 
+    string getNodePosition(Node* node) {
+        if (node->parent == nullptr) {
+            return "Root";
+        }
+        else if (node == node->parent->left) {
+            return "Left child of " + to_string(node->parent->value);
+        }
+        else if (node == node->parent->right) {
+            return "Right child of " + to_string(node->parent->value);
+        }
+        return "Unknown";
+    }
+
     bool hasAncestors(Node* node) {
         return node->parent != nullptr;
     }
@@ -68,7 +100,7 @@ public:
             return false;
         }
         if (node->parent->left != nullptr && node->parent->right != nullptr) {
-            return true; 
+            return true;
         }
         return false;
     }
@@ -116,5 +148,42 @@ public:
         }
         cout << endl;
     }
-};
 
+    //Traversals
+    void inorderTraversal(Node* node) {
+        if (node == nullptr) return;
+        inorderTraversal(node->left);
+        cout << node->value << " ";
+        inorderTraversal(node->right);
+    }
+
+
+    void preorderTraversal(Node* node) {
+        if (node == nullptr) return;
+        cout << node->value << " ";
+        preorderTraversal(node->left);
+        preorderTraversal(node->right);
+    }
+
+    void postorderTraversal(Node* node) {
+        if (node == nullptr) return;
+        postorderTraversal(node->left);
+        postorderTraversal(node->right);
+        cout << node->value << " ";
+    }
+
+    void inorder() {
+        inorderTraversal(root);
+        cout << endl;
+    }
+
+    void preorder() {
+        preorderTraversal(root);
+        cout << endl;
+    }
+
+    void postorder() {
+        postorderTraversal(root);
+        cout << endl;
+    }
+};
